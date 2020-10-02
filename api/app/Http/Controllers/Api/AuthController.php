@@ -16,6 +16,8 @@ class AuthController extends Controller
             'password' => 'required|confirmed'
         ]);
 
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
         $user = User::create($validatedData);
 
         // Génération de l'Access Token :
@@ -27,8 +29,25 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login()
+    public function login(Request $request)
     {
+        $loginData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
 
+        if(! auth()->attempt($loginData)) {
+            return response(['message' => 'Invalid credentials. You are not authozied !']);
+        }
+
+        $user = auth()->user();
+
+        // Génération de l'Access Token :
+        $accessToken = $user->createToken('authToken')->accessToken;
+
+        return response([
+            'user' => $user,
+            'access_token' => $accessToken
+        ]);
     }
 }
