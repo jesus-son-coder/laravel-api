@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return Task::all();
+        return TaskResource::collection(auth()->user()->tasks()->with('creator')->latest()->paginate(4));
     }
 
 
@@ -28,7 +29,13 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255'
+        ]);
+
+        $task = auth()->user()->tasks()->create($request->all());
+
+        return new TaskResource($task->load('creator'));
     }
 
     /**
