@@ -58,9 +58,15 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255'
+        ]);
+
+        $task->update($request->all());
+
+        return new TaskResource($task->load('creator'));
     }
 
     /**
