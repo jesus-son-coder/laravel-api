@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TasksController extends Controller
@@ -33,7 +34,13 @@ class TasksController extends Controller
             'title' => 'required|max:255'
         ]);
 
-        $task = auth()->user()->tasks()->create($request->all());
+        $input = $request->all();
+
+        if($request->has('due')) {
+            $input['due'] = Carbon::parse($request->due)->toDateTimeString();
+        }
+
+        $task = auth()->user()->tasks()->create($input);
 
         return new TaskResource($task->load('creator'));
     }
@@ -64,7 +71,13 @@ class TasksController extends Controller
             'title' => 'required|max:255'
         ]);
 
-        $task->update($request->all());
+        $input = $request->all();
+
+        if($request->has('due')) {
+            $input['due'] = Carbon::parse($request->due)->toDateTimeString();
+        }
+
+        $task->update($input);
 
         return new TaskResource($task->load('creator'));
     }
@@ -75,8 +88,12 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return response([
+            'message' => 'Deleted'
+        ]);
     }
 }
