@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -45,6 +46,25 @@ class TasksController extends Controller
         return new TaskResource($task->load('creator'));
     }
 
+
+
+    /**
+     * @SWG\Get(
+     *   path="/api/tasks/{task}",
+     *   summary="Get Testing",
+     *   operationId="testing",
+     *   @SWG\Response(response=200, description="successful operation"),
+     *   @SWG\Response(response=406, description="not acceptable"),
+     *   @SWG\Response(response=500, description="internal server error"),
+     *		@SWG\Parameter(
+     *          name="task",
+     *          in="path",
+     *          required=true,
+     *          type="string"
+     *      ),
+     * )
+     *
+     */
     /**
      * Display the specified resource.
      *
