@@ -5,6 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ * @OA\Schema(
+ *      title="Task",
+ *      description="L'objet Task",
+ *      @OA\Xml(name="Task"),
+ * ),
+ */
 class Task extends Model
 {
     use HasFactory;

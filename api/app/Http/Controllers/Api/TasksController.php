@@ -8,9 +8,33 @@ use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+
 class TasksController extends Controller
 {
 
+/**
+ * @OA\Get(
+ *     path="/api/tasks",
+ *     summary="Get all tasks",
+ *     operationId="getAllTasks",
+ *     tags={"Tasks"},
+ *     @OA\Parameter(
+ *         name="Authorization",
+ *         in="header",
+ *         required=true,
+ *         description="Bearer {access-token}",
+ *         @OA\Schema(
+ *          type="string",
+ *          default="Bearer "
+ *          )
+ *     ),
+ *     @OA\Response(
+ *          response="200",
+ *          description="Retourne toutes les tasks",
+ *          @OA\JsonContent(ref="#/components/schemas/Task")
+ *     )
+ * )
+ */
     /**
      * Display a listing of the resource.
      *
@@ -48,23 +72,8 @@ class TasksController extends Controller
 
 
 
-    /**
-     * @SWG\Get(
-     *   path="/api/tasks/{task}",
-     *   summary="Get Testing",
-     *   operationId="testing",
-     *   @SWG\Response(response=200, description="successful operation"),
-     *   @SWG\Response(response=406, description="not acceptable"),
-     *   @SWG\Response(response=500, description="internal server error"),
-     *		@SWG\Parameter(
-     *          name="task",
-     *          in="path",
-     *          required=true,
-     *          type="string"
-     *      ),
-     * )
-     *
-     */
+
+
     /**
      * Display the specified resource.
      *
