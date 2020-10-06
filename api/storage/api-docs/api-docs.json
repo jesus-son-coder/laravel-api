@@ -73,18 +73,6 @@
                 ],
                 "summary": "Get all tasks",
                 "operationId": "getAllTasks",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer {access-token}",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "Bearer "
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Retourne toutes les tasks",
@@ -96,7 +84,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         }
     },
@@ -131,10 +124,29 @@
                         "scopes": []
                     }
                 }
+            },
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
             }
         }
     },
-    "security": [
-        []
-    ]
+    "security": {
+        "passport": {
+            "type": "oauth2",
+            "description": "Laravel passport oauth2 security.",
+            "in": "header",
+            "scheme": "https",
+            "flows": {
+                "password": {
+                    "authorizationUrl": "http://localhost/oauth/authorize",
+                    "tokenUrl": "http://localhost/oauth/token",
+                    "refreshUrl": "http://localhost/token/refresh",
+                    "scopes": []
+                }
+            }
+        },
+        "ApiKeyAuth": []
+    }
 }

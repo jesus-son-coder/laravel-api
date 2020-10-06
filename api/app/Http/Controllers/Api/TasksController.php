@@ -18,16 +18,9 @@ class TasksController extends Controller
  *     summary="Get all tasks",
  *     operationId="getAllTasks",
  *     tags={"Tasks"},
- *     @OA\Parameter(
- *         name="Authorization",
- *         in="header",
- *         required=true,
- *         description="Bearer {access-token}",
- *         @OA\Schema(
- *          type="string",
- *          default="Bearer "
- *          )
- *     ),
+ *     security={
+ *      {"ApiKeyAuth": {}},
+ *      },
  *     @OA\Response(
  *          response="200",
  *          description="Retourne toutes les tasks",
